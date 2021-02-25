@@ -3,6 +3,8 @@
 gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
 
 gsutil cp gs://${BUCKET_PATH}/${WORLD_ZIP} /minecraft/${WORLD_ZIP}
+gsutil cp gs://${BUCKET_PATH}/server.properties /minecraft/server.properties
+gsutil cp gs://${BUCKET_PATH}/whitelist.json /minecraft/whitelist.json
 
 unzip /minecraft/${WORLD_ZIP} -d /minecraft
 

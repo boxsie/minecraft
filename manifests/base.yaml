@@ -49,8 +49,11 @@ metadata:
   name:  minecraft-service
   namespace:  minecraft
 spec:
+  type: LoadBalancer
   ports:
   - port: 25565
     targetPort: 25565
+    protocol: TCP
   selector:
     app:  minecraft
+---
