@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app:  minecraft
+  name:  minecraft-deployment
+  namespace:  minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  minecraft
+  template:
+    metadata:
+      labels:
+        app:  minecraft
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-cloud-key
+      containers:
+      - env:
+        - name: WORLD_ZIP
+          valueFrom:
+              secretKeyRef:
+                key: world-zip
+                name: minecraft-world-zip
+        - name: BUCKET_PATH
+          valueFrom:
+              secretKeyRef:
+                key: bucket-path
+                name: minecraft-bucket-path
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        image:  meat/minecraft
+        name:  minecraft
+        ports:
+        - containerPort: 25565
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app:  minecraft
+  name:  minecraft-service
+  namespace:  minecraft
+spec:
+  ports:
+  - port: 25565
+    targetPort: 25565
+  selector:
+    app:  minecraft
