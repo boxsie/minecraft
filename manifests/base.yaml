@@ -36,9 +36,8 @@ spec:
         volumeMounts:
         - mountPath: /var/secrets/google
           name: google-cloud-key
-        - mountPath: /minecraft
+        - mountPath: /minecraft/world
           name: minecraft-data
-          subPath: world
       volumes:
       - name: google-cloud-key
         secret:
