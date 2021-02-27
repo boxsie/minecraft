@@ -7,7 +7,7 @@ env:
   GKE_CLUSTER: devcluster
   GKE_ZONE: europe-west1-b
   DEPLOYMENT_NAME:  minecraft-deployment
-  NAMESPACE:  minecraft
+  NAMESPACE:  web
   IMAGE:  meat-games/minecraft
   WORLD_ZIP: world_20210225.zip
 
