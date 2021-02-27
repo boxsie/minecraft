@@ -37,8 +37,10 @@ spec:
         - mountPath: /var/secrets/google
           name: google-cloud-key
         - mountPath: /minecraft/whitelist.json
+          subPath: whitelist.json
           name: minecraft-server-whitelist
         - mountPath: /minecraft/server.properties
+          subPath: server.properties
           name: minecraft-server-properties
         - mountPath: /minecraft/world
           name: minecraft-data
@@ -47,11 +49,11 @@ spec:
         secret:
           secretName: google-cloud-key
       - name: minecraft-server-whitelist
-        secret:
-          secretName: minecraft-server-whitelist
+        configMap:
+          name: minecraft-server-whitelist
       - name: minecraft-server-properties
-        secret:
-          secretName: minecraft-server-properties
+        configMap:
+          name: minecraft-server-properties
       - name: minecraft-data
         persistentVolumeClaim:
           claimName: minecraft-pv-claim
