@@ -23,19 +23,19 @@ spec:
         env:
         - name: WORLD_ZIP
           valueFrom:
-              secretKeyRef:
-                key: world-zip
-                name: minecraft-world-zip
+            secretKeyRef:
+              key: world-zip
+              name: minecraft-world-zip
         - name: PLUGINS_ZIP
           valueFrom:
-              secretKeyRef:
-                key: plugins-zip
-                name: minecraft-plugins-zip
+            secretKeyRef:
+              key: plugins-zip
+              name: minecraft-plugins-zip
         - name: BUCKET_PATH
           valueFrom:
-              secretKeyRef:
-                key: bucket-path
-                name: minecraft-bucket-path
+            secretKeyRef:
+              key: bucket-path
+              name: minecraft-bucket-path
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         volumeMounts:
@@ -110,11 +110,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tcp-services
-  namespace: ingress-nginx
-data:
-  25565: "minecraft/minecraft-service:25565"
