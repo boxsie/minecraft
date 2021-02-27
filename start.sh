@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(ls /minecraft/world)" ]; then
+if [ "$(ls /minecraft/world/level.dat)" ]; then
     echo "Minecraft world exitsts"
 else
     echo "Downloading Minecraft world"
