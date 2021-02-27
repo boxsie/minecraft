@@ -26,6 +26,11 @@ spec:
               secretKeyRef:
                 key: world-zip
                 name: minecraft-world-zip
+        - name: PLUGINS_ZIP
+          valueFrom:
+              secretKeyRef:
+                key: plugins-zip
+                name: minecraft-plugins-zip
         - name: BUCKET_PATH
           valueFrom:
               secretKeyRef:
@@ -43,7 +48,9 @@ spec:
           subPath: server.properties
           name: minecraft-server-properties
         - mountPath: /minecraft/world
-          name: minecraft-data
+          name: minecraft-world
+        - mountPath: /minecraft/plugins
+          name: minecraft-plugins
       volumes:
       - name: google-cloud-key
         secret:
@@ -54,9 +61,12 @@ spec:
       - name: minecraft-server-properties
         configMap:
           name: minecraft-server-properties
-      - name: minecraft-data
+      - name: minecraft-world
         persistentVolumeClaim:
-          claimName: minecraft-pv-claim
+          claimName: minecraft-world-pv-claim
+      - name: minecraft-plugins
+        persistentVolumeClaim:
+          claimName: minecraft-plugin-pv-claim
 ---
 apiVersion: v1
 kind: Service
@@ -76,7 +86,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: minecraft-pv-claim
+  name: minecraft-world-pv-claim
   namespace: minecraft
   labels:
     app: minecraft
@@ -86,3 +96,25 @@ spec:
   resources:
     requests:
       storage: 10Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: minecraft-plugins-pv-claim
+  namespace: minecraft
+  labels:
+    app: minecraft
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+data:
+  25565: "minecraft/minecraft-service:25565"

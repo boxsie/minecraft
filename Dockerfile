@@ -32,4 +32,6 @@ RUN java -jar $BT_JAR
 COPY ./ ./
 RUN chmod +x start.sh
 
+RUN rm -rf /minecraft/world
+
 CMD ./start.sh

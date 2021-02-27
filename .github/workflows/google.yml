@@ -9,7 +9,8 @@ env:
   DEPLOYMENT_NAME:  minecraft-deployment
   NAMESPACE: minecraft
   IMAGE:  meat-games/minecraft
-  WORLD_ZIP: world_20210225.zip
+  WORLD_ZIP: world_20210227.zip
+  PLUGIN_ZIP: plugins_20210227.zip
 
 jobs:
   setup-build-publish-deploy:
@@ -62,6 +63,7 @@ jobs:
     - name: Deploy
       run: |-
         ./kustomize edit add secret minecraft-world-zip --from-literal=world-zip=${{ env.WORLD_ZIP }}
+        ./kustomize edit add secret minecraft-plugins-zip --from-literal=plugins-zip=${{ env.PLUGINS_ZIP }}
         ./kustomize edit add secret minecraft-bucket-path --from-literal=bucket-path=${{ secrets.BUCKET_PATH }}
         ./kustomize edit set image meat/minecraft=eu.gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA
         ./kustomize build . | kubectl apply -f -
