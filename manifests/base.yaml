@@ -19,6 +19,7 @@ spec:
       - name: google-cloud-key
         secret:
           secretName: google-cloud-key
+      - name: minecraft-pv-claim
       containers:
       - env:
         - name: WORLD_ZIP
@@ -34,6 +35,8 @@ spec:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
         - name: google-cloud-key
           mountPath: /var/secrets/google
         image:  meat/minecraft
@@ -57,3 +60,16 @@ spec:
   selector:
     app:  minecraft
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: minecraft-pv-claim
+  namespace: minecraft
+  labels:
+    app: minecraft
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
