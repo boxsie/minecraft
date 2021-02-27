@@ -15,13 +15,12 @@ spec:
       labels:
         app:  minecraft
     spec:
-      volumes:
-      - name: google-cloud-key
-        secret:
-          secretName: google-cloud-key
-      - name: minecraft-pv-claim
       containers:
-      - env:
+      - name:  minecraft
+        image:  meat/minecraft
+        ports:
+        - containerPort: 25565
+        env:
         - name: WORLD_ZIP
           valueFrom:
               secretKeyRef:
@@ -35,14 +34,18 @@ spec:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         volumeMounts:
-        - name: google-cloud-key
-          mountPath: /var/secrets/google
-        - name: minecraft-pv-claim
-          mountPath: /minecraft/world
-        image:  meat/minecraft
-        name:  minecraft
-        ports:
-        - containerPort: 25565
+        - mountPath: /var/secrets/google
+          name: google-cloud-key
+        - mountPath: /minecraft
+          name: minecraft-data
+          subPath: world
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-cloud-key
+      - name: minecraft-data
+        persistentVolumeClaim:
+          claimName: minecraft-pv-claim
 ---
 apiVersion: v1
 kind: Service
@@ -52,7 +55,7 @@ metadata:
   name:  minecraft-service
   namespace:  minecraft
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 25565
     targetPort: 25565
