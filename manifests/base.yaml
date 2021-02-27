@@ -36,9 +36,9 @@ spec:
         volumeMounts:
         - mountPath: /var/secrets/google
           name: google-cloud-key
-        - mountPath: /minecraft
+        - mountPath: /minecraft/whitelist.json
           name: minecraft-server-whitelist
-        - mountPath: /minecraft
+        - mountPath: /minecraft/server.properties
           name: minecraft-server-properties
         - mountPath: /minecraft/world
           name: minecraft-data
