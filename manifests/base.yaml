@@ -37,8 +37,8 @@ spec:
         volumeMounts:
         - name: google-cloud-key
           mountPath: /var/secrets/google
-        - name: google-cloud-key
-          mountPath: /var/secrets/google
+        - name: minecraft-pv-claim
+          mountPath: /minecraft/world
         image:  meat/minecraft
         name:  minecraft
         ports:
