@@ -10,7 +10,7 @@ env:
   NAMESPACE: minecraft
   IMAGE:  meat-games/minecraft
   WORLD_ZIP: world_20210227.zip
-  PLUGIN_ZIP: plugins_20210227.zip
+  PLUGINS_ZIP: plugins_20210227.zip
 
 jobs:
   setup-build-publish-deploy:
