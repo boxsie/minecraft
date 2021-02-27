@@ -36,12 +36,22 @@ spec:
         volumeMounts:
         - mountPath: /var/secrets/google
           name: google-cloud-key
+        - mountPath: /minecraft
+          name: minecraft-server-whitelist
+        - mountPath: /minecraft
+          name: minecraft-server-properties
         - mountPath: /minecraft/world
           name: minecraft-data
       volumes:
       - name: google-cloud-key
         secret:
           secretName: google-cloud-key
+      - name: minecraft-server-whitelist
+        secret:
+          secretName: minecraft-server-whitelist
+      - name: minecraft-server-properties
+        secret:
+          secretName: minecraft-server-properties
       - name: minecraft-data
         persistentVolumeClaim:
           claimName: minecraft-pv-claim
