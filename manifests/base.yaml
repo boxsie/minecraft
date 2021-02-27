@@ -4,7 +4,7 @@ metadata:
   labels:
     app:  minecraft
   name:  minecraft-deployment
-  namespace:  minecraft
+  namespace:  web
 spec:
   replicas: 1
   selector:
@@ -52,9 +52,8 @@ metadata:
   labels:
     app:  minecraft
   name:  minecraft-service
-  namespace:  minecraft
+  namespace:  web
 spec:
-  type: NodePort
   ports:
   - port: 25565
     targetPort: 25565
@@ -66,7 +65,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: minecraft-pv-claim
-  namespace: minecraft
+  namespace: web
   labels:
     app: minecraft
 spec:
