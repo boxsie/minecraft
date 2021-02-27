@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(ls -A /minecraft/world)" ]; then
+if [ "$(ls /minecraft/world)" ]; then
     echo "Minecraft world exitsts"
 else
     echo "Downloading Minecraft world"
