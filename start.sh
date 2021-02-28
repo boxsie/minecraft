@@ -9,6 +9,9 @@ else
     gsutil cp gs://${BUCKET_PATH}/${WORLD_ZIP} /minecraft/${WORLD_ZIP}
     unzip /minecraft/${WORLD_ZIP} -d /minecraft
 
+    gsutil cp gs://${BUCKET_PATH}/${NETHER_ZIP} /minecraft/${NETHER_ZIP}
+    unzip /minecraft/${NETHER_ZIP} -d /minecraft
+
     gsutil cp gs://${BUCKET_PATH}/${PLUGINS_ZIP} /minecraft/${PLUGINS_ZIP}
     unzip /minecraft/${PLUGINS_ZIP} -d /minecraft
 fi

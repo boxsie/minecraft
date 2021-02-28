@@ -26,6 +26,11 @@ spec:
             secretKeyRef:
               key: world-zip
               name: minecraft-world-zip
+        - name: NETHER_ZIP
+          valueFrom:
+            secretKeyRef:
+              key: nether-zip
+              name: minecraft-nether-zip
         - name: PLUGINS_ZIP
           valueFrom:
             secretKeyRef:
@@ -44,11 +49,16 @@ spec:
         - mountPath: /minecraft/whitelist.json
           subPath: whitelist.json
           name: minecraft-server-whitelist
+        - mountPath: /minecraft/ops.json
+          subPath: ops.json
+          name: minecraft-server-ops
         - mountPath: /minecraft/server.properties
           subPath: server.properties
           name: minecraft-server-properties
         - mountPath: /minecraft/world
           name: minecraft-world
+        - mountPath: /minecraft/world_nether
+          name: minecraft-nether
         - mountPath: /minecraft/plugins
           name: minecraft-plugins
       volumes:
@@ -58,12 +68,18 @@ spec:
       - name: minecraft-server-whitelist
         configMap:
           name: minecraft-server-whitelist
+      - name: minecraft-server-ops
+        configMap:
+          name: minecraft-server-ops
       - name: minecraft-server-properties
         configMap:
           name: minecraft-server-properties
       - name: minecraft-world
         persistentVolumeClaim:
           claimName: minecraft-world-pv-claim
+      - name: minecraft-nether
+        persistentVolumeClaim:
+          claimName: minecraft-nether-pv-claim
       - name: minecraft-plugins
         persistentVolumeClaim:
           claimName: minecraft-plugins-pv-claim
@@ -95,7 +111,21 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 3Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: minecraft-nether-pv-claim
+  namespace: minecraft
+  labels:
+    app: minecraft
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -109,4 +139,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 1Gi
